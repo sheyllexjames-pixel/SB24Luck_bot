@@ -9,28 +9,33 @@ TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 # Welcome Message in Khmer
 WELCOME_TEXT = (
     "សូមស្វាគមន៍មកកាន់ SB24 - ស្ដេច​បក្សី (Official)\n\n"
-    "🐓 វេទិកាកម្សាន្តតាមអនឡាញដែលមានទំនុកចិត្តខ្ពស់។\n"
-    "👉 សូមចុចលើប៊ូតុងខាងក្រោមដើម្បីចាប់ផ្តើម។\n\n"
-    "សូមជ្រើសរើសសេវាកម្ម៖"
+    "🐓 ជាវេទិកាកម្សាន្តតាមអនឡាញដែលមានទំនុកចិត្តខ្ពស់។"
 )
 
+# Service Selection Message
+SERVICE_TEXT = "សូមជ្រើសរើសសេវាកម្ម៖"
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Buttons layout
+    # Buttons formatted to look like your reference image
     keyboard = [
-        [InlineKeyboardButton("ជជែកជាមួយ Admin", url="https://t.me/sb24lucky98999")],
-        [InlineKeyboardButton("ដាក់ប្រាក់ (QR)", callback_data="deposit")]
+        [
+            InlineKeyboardButton("📩 ឆាតទៅ Admin ↗️", url="https://t.me/sb24lucky98999"),
+            InlineKeyboardButton("💰 ដាក់លុយ (QR)", callback_data="deposit")
+        ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    await update.message.reply_text(WELCOME_TEXT, reply_markup=reply_markup)
+    # Sends the welcome message, then the service text, then the buttons
+    await update.message.reply_text(WELCOME_TEXT)
+    await update.message.reply_text(SERVICE_TEXT, reply_markup=reply_markup)
 
 async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
     if query.data == "deposit":
-        # Khmer message when clicking the QR button
-        await query.edit_message_text(text="🏦 សូមផ្ញើសារទៅកាន់ Admin ដើម្បីទទួលបានលេខកូដ QR។")
+        # Khmer response for the deposit button
+        await query.edit_message_text(text="🏦 សូមផ្ញើសារទៅកាន់ Admin ដើម្បីទទួលបាន QR Code។")
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
