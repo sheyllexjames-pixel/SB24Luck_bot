@@ -16,16 +16,19 @@ WELCOME_TEXT = (
 SERVICE_TEXT = "សូមជ្រើសរើសសេវាកម្ម៖"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Buttons formatted to look like your reference image
+    # Buttons layout based on your reference image
     keyboard = [
         [
             InlineKeyboardButton("📩 ឆាតទៅ Admin ↗️", url="https://t.me/sb24lucky98999"),
             InlineKeyboardButton("💰 ដាក់លុយ (QR)", callback_data="deposit")
+        ],
+        [
+            InlineKeyboardButton("🎁 គណនីសាកល្បង", callback_data="trial")
         ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    # Sends the welcome message, then the service text, then the buttons
+    # Sends the messages exactly as requested
     await update.message.reply_text(WELCOME_TEXT)
     await update.message.reply_text(SERVICE_TEXT, reply_markup=reply_markup)
 
@@ -34,8 +37,9 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     
     if query.data == "deposit":
-        # Khmer response for the deposit button
-        await query.edit_message_text(text="🏦 សូមផ្ញើសារទៅកាន់ Admin ដើម្បីទទួលបាន QR Code។")
+        await query.edit_message_text(text="🏦 សូមផ្ញើសារទៅកាន់ Admin ដើម្បីទទួលបានលេខកូដ QR។")
+    elif query.data == "trial":
+        await query.edit_message_text(text="🎁 នេះគឺជាគណនីសាកល្បងរបស់អ្នក។")
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
