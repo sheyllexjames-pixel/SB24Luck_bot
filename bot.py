@@ -12,11 +12,10 @@ WELCOME_TEXT = (
     "🐓 ជាវេទិកាកម្សាន្តតាមអនឡាញដែលមានទំនុកចិត្តខ្ពស់។"
 )
 
-# Service Selection Message
 SERVICE_TEXT = "សូមជ្រើសរើសសេវាកម្ម៖"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Buttons layout based on your reference image
+    # Buttons layout
     keyboard = [
         [
             InlineKeyboardButton("📩 ឆាតទៅ Admin ↗️", url="https://t.me/sb24lucky98999"),
@@ -28,7 +27,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    # Sends the messages exactly as requested
+    # Send messages separately
     await update.message.reply_text(WELCOME_TEXT)
     await update.message.reply_text(SERVICE_TEXT, reply_markup=reply_markup)
 
@@ -43,9 +42,6 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
-    
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button_click))
-    
-    print("Bot is running...")
     application.run_polling()
